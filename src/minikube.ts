@@ -5,8 +5,12 @@ import * as os from 'os'
 import * as io from '@actions/io'
 import * as path from 'path'
 
-export async function StartMinikube(): Promise<void> {
-  await exec.exec('minikube', ['start', '--wait=all'])
+export async function StartMinikube(version: string): Promise<void> {
+  const args = ['start', 'wait=all']
+  if (version !== '') {
+    args.push(`--kubernetes-version=${version}`)
+  }
+  await exec.exec('minikube', args)
 }
 
 export function getDownloadUrl(version: string): string {
